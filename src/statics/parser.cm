@@ -1,4 +1,6 @@
 Group is
   operator.cm
   statics/parser/expr.lex
-  statics/parser/expr.grm
+  statics/parser/expr.lex
+  statics/parser/expr_lexer.sml
+  statics/parser/expr_parser.sml
