@@ -35,4 +35,10 @@ struct
   fun replicatie i x = List.tabulate (i, fn _ => x)
   fun mkVal p q s = ((p, q), s)
 
+  fun arity LAM   = ([mkVal [] [O.Sort.EXP] O.Sort.EXP], O.Sort.EXP)
+    | arity AP    = ([mkVal [] [] O.Sort.EXP],    O.Sort.EXP)
+    | arity TYLAM = ([mkVal [] [O.Sort.TYP] O.Sort.TYP], O.Sort.TYP)
+    | arity TYAPP = ([mkVal [] [] O.Sort.TYP],    O.Sort.TYP)
+    | arity ARR   = raise Fail "not implemented yet!"
+
 end
