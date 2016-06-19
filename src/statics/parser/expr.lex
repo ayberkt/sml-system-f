@@ -21,7 +21,7 @@ whitespace = [\ \t];
 {alpha}{any}*      => (Tokens.IDENT (yytext, !pos, !pos));
 
 "->"               => (Tokens.ARRTYPE (!pos, !pos));
-"forall"           => (Tokens.FORALL (!pos, !pos));
+"all"           => (Tokens.FORALL (!pos, !pos));
 "\\"               => (Tokens.SMALLLAMBDA (!pos, !pos));
 "/\\"              => (Tokens.BIGLAMBDA (!pos, !pos));
 
