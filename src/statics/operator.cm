@@ -1,4 +1,5 @@
 Group is
   $/basis.cm
   ../../lib/sml-typed-abts/abt.cm
+  operator/sort.sml
   operator/operator.sml
