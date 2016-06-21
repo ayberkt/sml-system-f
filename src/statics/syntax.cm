@@ -2,3 +2,4 @@ Library
   signature SYNTAX
 is
   syntax/syntax.sig
+  syntax/syntax.sml
