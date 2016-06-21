@@ -3,3 +3,4 @@ Group is
   ../../lib/sml-typed-abts/abt.cm
   syntax.cm
   typing/typing.sig
+  typing/typing.fun

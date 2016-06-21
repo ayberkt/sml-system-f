@@ -4,8 +4,9 @@ sig
   type typ
 
   type tctx
-  type vctx
+  type ectx
 
-  val check : tctx * vctx -> exp -> typ -> unit
-  val infer : tctx * vctx -> exp -> typ
+  val checkTyp : tctx -> typ -> bool
+  val check : tctx * ectx -> exp -> typ -> bool
+  val infer : tctx * ectx -> exp -> typ option
 end
