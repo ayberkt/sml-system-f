@@ -18,6 +18,7 @@ struct
   open OperatorData
   structure Ar = ListAbtArity (Sort)
 
+  (* to make a valence *)
   fun mkVal p q s = ((p, q), s)
 
   val arity =
