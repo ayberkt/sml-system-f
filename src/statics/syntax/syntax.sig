@@ -21,5 +21,5 @@ sig
   val intoTyp : typ typ_view -> typ
 
   val outExp : exp -> (typ, exp) exp_view
-  val outTyp : typ typ_view -> typ
+  val outTyp : typ -> typ typ_view
 end
