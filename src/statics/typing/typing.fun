@@ -14,7 +14,7 @@ struct
      | ARR (t1, t2) => checkTyp delta t2 andalso checkTyp delta t2
      | ALL (x, t) => checkTyp (Ctx.insert delta x ()) t
 
-  fun check _ _ = raise Todo
+  fun check (delta, gamma) e = raise Match
 
   fun infer _ _ = raise Todo
 

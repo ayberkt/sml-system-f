@@ -7,12 +7,19 @@ sig
 
   structure Ctx : DICT where type key = var
 
-  datatype ('t, 'e) exp_view =
-     VAR of var
-   | TLAM of var * 'e
-   | TAPP of 'e * 't
+  datatype ('t, 'e) val_view =
+     TLAM of var * 'e
    | LAM of var * 'e
+
+  datatype ('t, 'e) neu_view =
+     VAR of var
+   | TAPP of 'e * 't
    | AP of 'e * 'e
+
+  datatype ('t, 'e) exp_view =
+     ANN of 'e * 't
+   | NEU of ('t, 'e) neu_view
+   | VAL of ('t, 'e) val_view
 
   datatype 't typ_view =
      TVAR of var

@@ -7,12 +7,19 @@ struct
 
   structure Ctx = Abt.Var.Ctx
 
-  datatype ('t, 'e) exp_view =
-     VAR of var
-   | TLAM of var * 'e
-   | TAPP of 'e * 't
+  datatype ('t, 'e) val_view =
+     TLAM of var * 'e
    | LAM of var * 'e
+
+  datatype ('t, 'e) neu_view =
+     VAR of var
+   | TAPP of 'e * 't
    | AP of 'e * 'e
+
+  datatype ('t, 'e) exp_view =
+     ANN of 'e * 't
+   | NEU of ('t, 'e) neu_view
+   | VAL of ('t, 'e) val_view
 
   datatype 't typ_view =
      TVAR of var
@@ -27,11 +34,12 @@ struct
   structure O = OperatorData
 
   val intoExp =
-    fn VAR x => check (`x, SortData.EXP)
-     | TLAM (x, e) => O.TYLAM $$ [([],[x]) \ e]
-     | TAPP (e, t) => O.TYAPP $$ [([],[]) \ e, ([],[]) \ t]
-     | LAM (x, e) => O.LAM $$ [([],[x]) \ e]
-     | AP (e1, e2) => O.AP $$ [([],[]) \ e1, ([],[]) \ e2]
+    fn NEU (VAR x) => check (`x, SortData.EXP)
+     | NEU (TAPP (e, t)) => O.TYAPP $$ [([],[]) \ e, ([],[]) \ t]
+     | NEU (AP (e1, e2)) => O.AP $$ [([],[]) \ e1, ([],[]) \ e2]
+     | VAL (TLAM (x, e)) => O.TYLAM $$ [([],[x]) \ e]
+     | VAL (LAM (x, e)) => O.LAM $$ [([],[x]) \ e]
+     | ANN (e, t) => O.ANN $$ [([],[]) \ e, ([],[]) \ t]
 
   val intoTyp =
     fn TVAR x => check (`x, SortData.TYP)
@@ -40,11 +48,12 @@ struct
 
   fun outExp e =
     case Abt.infer e of
-       (`x, SortData.EXP) => VAR x
-     | (O.TYLAM $ [(_,[x]) \ e], _) => TLAM (x, e)
-     | (O.TYAPP $ [_ \ e, _ \ t], _) => TAPP (e, t)
-     | (O.LAM $ [(_,[x]) \ e], _) => LAM (x, e)
-     | (O.AP $ [_ \ e1, _ \ e2], _) => AP (e1, e2)
+       (`x, SortData.EXP) => NEU (VAR x)
+     | (O.TYLAM $ [(_,[x]) \ e], _) => VAL (TLAM (x, e))
+     | (O.TYAPP $ [_ \ e, _ \ t], _) => NEU (TAPP (e, t))
+     | (O.LAM $ [(_,[x]) \ e], _) => VAL (LAM (x, e))
+     | (O.AP $ [_ \ e1, _ \ e2], _) => NEU (AP (e1, e2))
+     | (O.ANN $ [_ \ e, _ \ t], _) => ANN (e, t)
      | _ => raise Fail "Invalid expression"
 
   fun outTyp t =

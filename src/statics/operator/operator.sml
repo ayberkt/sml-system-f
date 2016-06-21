@@ -1,6 +1,6 @@
 structure OperatorData =
 struct
-    datatype t = LAM | AP | TYLAM | TYAPP | ARR | ALL
+    datatype t = LAM | AP | TYLAM | TYAPP | ARR | ALL | ANN
 
     val eq : t * t -> bool = op=
 
@@ -11,6 +11,7 @@ struct
        | TYAPP => "App"
        | ARR => "arr"
        | ALL => "all"
+       | ANN => "ann"
 end
 
 structure SimpleOperator : ABT_SIMPLE_OPERATOR =
@@ -28,6 +29,7 @@ struct
      | TYAPP => ([mkVal [] [] SortData.EXP, mkVal [] [] SortData.TYP], SortData.EXP)
      | ARR => ([mkVal [] [] SortData.TYP, mkVal [] [] SortData.TYP], SortData.TYP)
      | ALL => ([mkVal [] [SortData.TYP] SortData.TYP], SortData.TYP)
+     | ANN => ([mkVal [] [] SortData.EXP, mkVal [] [] SortData.TYP], SortData.EXP)
 end
 
 structure Operator = AbtSimpleOperator (SimpleOperator)
