@@ -5,6 +5,8 @@ struct
   type exp = Abt.abt
   type typ = Abt.abt
 
+  structure Ctx = Abt.Var.Ctx
+
   datatype ('t, 'e) exp_view =
      VAR of var
    | TLAM of var * 'e

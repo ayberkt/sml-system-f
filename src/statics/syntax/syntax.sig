@@ -5,6 +5,8 @@ sig
   type exp
   type typ
 
+  structure Ctx : DICT where type key = var
+
   datatype ('t, 'e) exp_view =
      VAR of var
    | TLAM of var * 'e
