@@ -5,6 +5,9 @@ sig
   type exp
   type typ
 
+  val typEq : typ * typ -> bool
+  val expEq : exp * exp -> bool
+
   structure Ctx : DICT where type key = var
 
   datatype ('t, 'e) val_view =

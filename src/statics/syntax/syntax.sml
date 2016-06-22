@@ -33,6 +33,9 @@ struct
 
   structure O = OperatorData
 
+  val typEq = Abt.eq
+  val expEq = Abt.eq
+
   val intoExp =
     fn NEU (VAR x) => check (`x, SortData.EXP)
      | NEU (TAPP (e, t)) => O.TYAPP $$ [([],[]) \ e, ([],[]) \ t]
