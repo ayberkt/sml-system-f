@@ -8,6 +8,8 @@ sig
   val typEq : typ * typ -> bool
   val expEq : exp * exp -> bool
 
+  val substTyp : var * typ -> typ -> typ
+
   structure Ctx : DICT where type key = var
 
   datatype ('t, 'e) val_view =

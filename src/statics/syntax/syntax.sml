@@ -36,6 +36,9 @@ struct
   val typEq = Abt.eq
   val expEq = Abt.eq
 
+  fun substTyp (x, t) t' =
+    Abt.subst (t, x) t'
+
   val intoExp =
     fn NEU (VAR x) => check (`x, SortData.EXP)
      | NEU (TAPP (e, t)) => O.TYAPP $$ [([],[]) \ e, ([],[]) \ t]
