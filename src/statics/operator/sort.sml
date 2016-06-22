@@ -11,6 +11,8 @@ struct
     | eq (EXP, EXP) = true
     | eq (_,     _) = false
 
+  val eq = op=
+
   fun toString EXP = "exp"
     | toString TYP = "typ"
 end
