@@ -1,0 +1,6 @@
+Library
+  signature SYNTAX
+is
+  ../../lib/cmlib/cmlib.cm
+  syntax/syntax.sig
+  syntax/syntax.sml
