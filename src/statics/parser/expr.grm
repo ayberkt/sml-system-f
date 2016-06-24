@@ -1,0 +1,49 @@
+structure Ast =  Ast (structure Operator = Operator and
+                      Metavar = AbtSymbol ())
+structure OD = OperatorData
+structure O = Operator
+open Ast
+
+%%
+%header (functor ExprLrValsFun (structure Token : TOKEN))
+
+%term EOF
+   | IDENT of string
+   | ARRTYPE
+   | FORALL
+   | SMALLLAMBDA
+   | BIGLAMBDA
+   | COLON
+   | LPAREN
+   | RPAREN
+   | RBRACKET
+   | LBRACKET
+   | LSQUARE
+   | RSQUARE
+   | LTEQUALS
+   | DOT
+   | APOSTROPHE
+
+%nonterm start of Ast.ast
+       | exp   of Ast.ast
+       | typ   of Ast.ast
+
+%verbose
+%pos int
+%start start
+%eop EOF
+%noshift EOF
+%name Expr
+%%
+
+start : exp                             (exp)
+
+typ : IDENT                             (` IDENT)
+
+exp : IDENT                             (` IDENT)
+    | SMALLLAMBDA IDENT DOT exp         ($ (OD.LAM, [\ (([], [IDENT]), exp)]))
+    | exp LPAREN exp RPAREN             ($ (OD.AP, [(\ (([], []), exp1)),
+                                                    (\ (([], []), exp2))]))
+    | BIGLAMBDA IDENT DOT exp           ($ (OD.TYLAM, [\ (([], [IDENT]), exp)]))
+    | exp LSQUARE typ RSQUARE           ($ (OD.AP, [(\ (([], []), exp)),
+                                                    (\ (([], []), typ))]))

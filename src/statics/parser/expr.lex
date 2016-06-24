@@ -33,4 +33,5 @@ whitespace = [\ \t];
 "]"                => (Tokens.RSQUARE (!pos, !pos));
 "<="               => (Tokens.LTEQUALS (!pos, !pos));
 "."                => (Tokens.DOT (!pos, !pos));
+":"                => (Tokens.COLON (!pos, !pos));
 "\'"               => (Tokens.APOSTROPHE (!pos, !pos));

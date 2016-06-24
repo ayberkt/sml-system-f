@@ -1,6 +1,9 @@
 Group is
+  $/basis.cm
+  $/ml-yacc-lib.cm
+  ../../lib/sml-typed-abts/abt.cm
   operator.cm
-  statics/parser/expr.lex
-  statics/parser/expr.lex
-  statics/parser/expr_lexer.sml
-  statics/parser/expr_parser.sml
+  syntax.cm
+  typing.cm
+  parser/expr.lex
+  parser/expr.grm
