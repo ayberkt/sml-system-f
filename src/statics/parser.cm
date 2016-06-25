@@ -7,3 +7,6 @@ Group is
   typing.cm
   parser/expr.lex
   parser/expr.grm
+  parser/expr_lexer.sml
+  parser/expr_parser.sml
+
