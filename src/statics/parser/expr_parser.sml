@@ -1,4 +1,4 @@
-structure ExpParser =
+structure ExprParser =
   Join(structure LrParser = LrParser
-      structure ParserData = ExpLrVals.ParserData
-      structure Lex = ExpLex)
+      structure ParserData = ExprLrVals.ParserData
+      structure Lex = ExprLex)
