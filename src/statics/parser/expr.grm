@@ -1,8 +1,4 @@
-structure Ast =  Ast (structure Operator = Operator and
-                      Metavar = AbtSymbol ())
-structure OD = OperatorData
-structure O = Operator
-open Ast
+structure Syn = AstSyntax
 
 %%
 %header (functor ExprLrValsFun (structure Token : TOKEN))
@@ -24,9 +20,9 @@ open Ast
    | DOT
    | APOSTROPHE
 
-%nonterm start of Ast.ast
-       | exp   of Ast.ast
-       | typ   of Ast.ast
+%nonterm start of Syn.exp
+       | exp   of Syn.exp
+       | typ   of Syn.typ
 
 %verbose
 %pos int
@@ -38,12 +34,10 @@ open Ast
 
 start : exp                             (exp)
 
-typ : IDENT                             (` IDENT)
+typ : IDENT                             (Syn.intoTyp (Syn.TVAR IDENT))
 
-exp : IDENT                             (` IDENT)
-    | SMALLLAMBDA IDENT DOT exp         ($ (OD.LAM, [\ (([], [IDENT]), exp)]))
-    | exp LPAREN exp RPAREN             ($ (OD.AP, [(\ (([], []), exp1)),
-                                                    (\ (([], []), exp2))]))
-    | BIGLAMBDA IDENT DOT exp           ($ (OD.TYLAM, [\ (([], [IDENT]), exp)]))
-    | exp LSQUARE typ RSQUARE           ($ (OD.AP, [(\ (([], []), exp)),
-                                                    (\ (([], []), typ))]))
+exp : IDENT                             (Syn.intoExp (Syn.NEU (Syn.VAR IDENT)))
+    | SMALLLAMBDA IDENT DOT exp         (Syn.intoExp (Syn.VAL (Syn.LAM (IDENT, exp))))
+    | exp LPAREN exp RPAREN             (Syn.intoExp (Syn.NEU (Syn.AP (exp1, exp2))))
+    | BIGLAMBDA IDENT DOT exp           (Syn.intoExp (Syn.VAL (Syn.TLAM (IDENT, exp))))
+    | exp LSQUARE typ RSQUARE           (Syn.intoExp (Syn.NEU (Syn.TAPP (exp, typ))))
