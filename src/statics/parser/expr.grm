@@ -1,4 +1,4 @@
-structure Syn = AstSyntax
+open AstSyntax
 
 %%
 %header (functor ExprLrValsFun (structure Token : TOKEN))
@@ -20,9 +20,9 @@ structure Syn = AstSyntax
    | DOT
    | APOSTROPHE
 
-%nonterm start of Syn.exp
-       | exp   of Syn.exp
-       | typ   of Syn.typ
+%nonterm start of exp
+       | exp   of exp
+       | typ   of typ
 
 %verbose
 %pos int
@@ -34,10 +34,12 @@ structure Syn = AstSyntax
 
 start : exp                             (exp)
 
-typ : IDENT                             (Syn.intoTyp (Syn.TVAR IDENT))
+typ : IDENT                             (intoTyp (TVAR IDENT))
+    | FORALL IDENT DOT typ              (intoTyp (ALL (IDENT, typ)))
+    | typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
 
-exp : IDENT                             (Syn.intoExp (Syn.NEU (Syn.VAR IDENT)))
-    | SMALLLAMBDA IDENT DOT exp         (Syn.intoExp (Syn.VAL (Syn.LAM (IDENT, exp))))
-    | exp LPAREN exp RPAREN             (Syn.intoExp (Syn.NEU (Syn.AP (exp1, exp2))))
-    | BIGLAMBDA IDENT DOT exp           (Syn.intoExp (Syn.VAL (Syn.TLAM (IDENT, exp))))
-    | exp LSQUARE typ RSQUARE           (Syn.intoExp (Syn.NEU (Syn.TAPP (exp, typ))))
+exp : IDENT                             (intoExp (NEU (VAR IDENT)))
+    | SMALLLAMBDA IDENT DOT exp         (intoExp (VAL (LAM (IDENT, exp))))
+    | exp LPAREN exp RPAREN             (intoExp (NEU (AP (exp1, exp2))))
+    | BIGLAMBDA IDENT DOT exp           (intoExp (VAL (TLAM (IDENT, exp))))
+    | exp LSQUARE typ RSQUARE           (intoExp (NEU (TAPP (exp, typ))))
