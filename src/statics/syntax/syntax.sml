@@ -1,11 +1,8 @@
-structure Syntax :> SYNTAX =
+functor PreSyntax (View : ABT_SYNTAX_VIEW_INTO where type 'a spine = 'a list and type 'a operator = OperatorData.t and type sort = SortData.t) : PRE_SYNTAX =
 struct
-  structure Abt = SimpleAbt (Operator)
-  type var = Abt.variable
-  type exp = Abt.abt
-  type typ = Abt.abt
-
-  structure Ctx = Abt.Var.Ctx
+  type var = View.variable
+  type exp = View.term
+  type typ = View.term
 
   datatype ('t, 'e) val_view =
      TLAM of var * 'e
@@ -28,16 +25,10 @@ struct
 
   exception Todo
 
-  open Abt
+  open View
   infix $ $$ \
 
   structure O = OperatorData
-
-  val typEq = Abt.eq
-  val expEq = Abt.eq
-
-  fun substTyp (x, t) t' =
-    Abt.subst (t, x) t'
 
   val intoExp =
     fn NEU (VAR x) => check (`x, SortData.EXP)
@@ -52,21 +43,46 @@ struct
      | ARR (t1, t2) => O.ARR $$ [([],[]) \ t1, ([],[]) \ t2]
      | ALL (x, t) => O.ALL $$ [([],[x]) \ t]
 
-  fun outExp e =
-    case Abt.infer e of
-       (`x, SortData.EXP) => NEU (VAR x)
-     | (O.TYLAM $ [(_,[x]) \ e], _) => VAL (TLAM (x, e))
-     | (O.TYAPP $ [_ \ e, _ \ t], _) => NEU (TAPP (e, t))
-     | (O.LAM $ [(_,[x]) \ e], _) => VAL (LAM (x, e))
-     | (O.AP $ [_ \ e1, _ \ e2], _) => NEU (AP (e1, e2))
-     | (O.ANN $ [_ \ e, _ \ t], _) => ANN (e, t)
-     | _ => raise Fail "Invalid expression"
-
-  fun outTyp t =
-    case Abt.infer t of
-       (`x, SortData.TYP) => TVAR x
-     | (O.ARR $ [_ \ t1, _ \ t2], _) => ARR (t1, t2)
-     | (O.ALL $ [(_,[x]) \ t], _) => ALL (x, t)
-     | _ => raise Fail "Invalid type"
-
 end
+
+structure Syntax : SYNTAX =
+struct
+  local
+    structure Abt = SimpleAbt (Operator)
+    structure View = AbtSyntaxView (Abt)
+    structure S = PreSyntax (View)
+    open Abt
+    structure O = OperatorData
+    infix $ \
+  in
+    open S
+
+    structure Ctx = Abt.Var.Ctx
+    val typEq = Abt.eq
+    val expEq = Abt.eq
+
+    fun substTyp (x, t) t' =
+      Abt.subst (t, x) t'
+
+    fun outExp e =
+      case View.infer e of
+         (`x, SortData.EXP) => NEU (VAR x)
+       | (O.TYLAM $ [(_,[x]) \ e], _) => VAL (TLAM (x, e))
+       | (O.TYAPP $ [_ \ e, _ \ t], _) => NEU (TAPP (e, t))
+       | (O.LAM $ [(_,[x]) \ e], _) => VAL (LAM (x, e))
+       | (O.AP $ [_ \ e1, _ \ e2], _) => NEU (AP (e1, e2))
+       | (O.ANN $ [_ \ e, _ \ t], _) => ANN (e, t)
+       | _ => raise Fail "Invalid expression"
+
+    fun outTyp t =
+      case View.infer t of
+         (`x, SortData.TYP) => TVAR x
+       | (O.ARR $ [_ \ t1, _ \ t2], _) => ARR (t1, t2)
+       | (O.ALL $ [(_,[x]) \ t], _) => ALL (x, t)
+       | _ => raise Fail "Invalid type"
+  end
+end
+
+structure Metavar = AbtSymbol ()
+structure Ast = Ast (structure Operator = Operator and Metavar = Metavar)
+structure AstSyntax : PRE_SYNTAX = PreSyntax (AstSyntaxView (structure Ast = Ast type sort = SortData.t))

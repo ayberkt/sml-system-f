@@ -1,6 +1,11 @@
 Library
+  signature PRE_SYNTAX
   signature SYNTAX
+  structure Syntax
+  structure AstSyntax
 is
   ../../lib/cmlib/cmlib.cm
+  ../../lib/sml-typed-abts/abt.cm
+  operator.cm
   syntax/syntax.sig
   syntax/syntax.sml

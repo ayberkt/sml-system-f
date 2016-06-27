@@ -1,16 +1,9 @@
-signature SYNTAX =
+signature PRE_SYNTAX =
 sig
   type var
 
   type exp
   type typ
-
-  val typEq : typ * typ -> bool
-  val expEq : exp * exp -> bool
-
-  val substTyp : var * typ -> typ -> typ
-
-  structure Ctx : DICT where type key = var
 
   datatype ('t, 'e) val_view =
      TLAM of var * 'e
@@ -33,6 +26,18 @@ sig
 
   val intoExp : (typ, exp) exp_view -> exp
   val intoTyp : typ typ_view -> typ
+end
+
+signature SYNTAX =
+sig
+  include PRE_SYNTAX
+
+  val typEq : typ * typ -> bool
+  val expEq : exp * exp -> bool
+
+  val substTyp : var * typ -> typ -> typ
+
+  structure Ctx : DICT where type key = var
 
   val outExp : exp -> (typ, exp) exp_view
   val outTyp : typ -> typ typ_view
