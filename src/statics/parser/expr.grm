@@ -42,8 +42,3 @@ typ : IDENT                             (` IDENT)
 
 exp : IDENT                             (` IDENT)
     | SMALLLAMBDA IDENT DOT exp         ($ (OD.LAM, [\ (([], [IDENT]), exp)]))
-    | exp LPAREN exp RPAREN             ($ (OD.AP, [(\ (([], []), exp1)),
-                                                    (\ (([], []), exp2))]))
-    | BIGLAMBDA IDENT DOT exp           ($ (OD.TYLAM, [\ (([], [IDENT]), exp)]))
-    | exp LSQUARE typ RSQUARE           ($ (OD.AP, [(\ (([], []), exp)),
-                                                    (\ (([], []), typ))]))
