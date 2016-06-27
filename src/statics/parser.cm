@@ -3,8 +3,9 @@ Group is
   $/ml-yacc-lib.cm
   ../../lib/sml-typed-abts/abt.cm
   operator.cm
-  syntax.cm
   typing.cm
+  ast.sml
+  syntax.cm
   parser/expr.lex
   parser/expr.grm
   parser/expr_lexer.sml
