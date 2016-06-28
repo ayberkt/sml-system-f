@@ -3,6 +3,7 @@ Library
   signature SYNTAX
   structure Syntax
   structure AstSyntax
+  structure Ast
 is
   ../../lib/cmlib/cmlib.cm
   ../../lib/sml-typed-abts/abt.cm
