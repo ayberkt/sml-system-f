@@ -1,3 +1,6 @@
+structure Abt = SimpleAbt (Operator)
+structure ShowAbt = DebugShowAbt (Abt)
+
 functor PreSyntax (View : ABT_SYNTAX_VIEW_INTO where type 'a spine = 'a list and type 'a operator = OperatorData.t and type sort = SortData.t) : PRE_SYNTAX =
 struct
   type var = View.variable
@@ -48,9 +51,9 @@ end
 structure Syntax : SYNTAX =
 struct
   local
-    structure Abt = SimpleAbt (Operator)
     structure View = AbtSyntaxView (Abt)
     structure S = PreSyntax (View)
+    structure Abt = Abt
     open Abt
     structure O = OperatorData
     infix $ \
@@ -83,6 +86,11 @@ struct
   end
 end
 
-structure Metavar = AbtSymbol ()
-structure Ast = Ast (structure Operator = Operator and Metavar = Metavar)
+structure Ast = Ast (structure Operator = Operator and Metavar = Abt.Metavar)
+structure AstAbt =
+struct
+  structure Abt = Abt
+  structure Ast = Ast
+end
 structure AstSyntax : PRE_SYNTAX = PreSyntax (AstSyntaxView (structure Ast = Ast type sort = SortData.t))
+structure AstToAbt = AstToAbt (AstAbt)

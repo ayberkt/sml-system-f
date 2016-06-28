@@ -19,7 +19,7 @@ struct
 
   fun error (s, pos, pos') = (raise Fail "Parse error !")
 
-  fun parse text : AstSyntax.exp =
+  fun parse text : Ast.ast =
     let
         val lexer =  ExprParser.makeLexer (stringreader text)
         val (res,_) = ExprParser.parse(1, lexer, error, ())

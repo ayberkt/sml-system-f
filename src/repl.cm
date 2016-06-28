@@ -1,5 +1,6 @@
 Group is
   $/basis.cm
-  statics/parser.cm
+  ../lib/sml-typed-abts/abt.cm
   statics/syntax.cm
+  statics/parser.cm
   repl/repl.sml

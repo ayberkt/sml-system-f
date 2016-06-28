@@ -4,6 +4,11 @@ Library
   structure Syntax
   structure AstSyntax
   structure Ast
+  structure Abt
+  structure AstToAbt
+  structure ShowAbt
+  structure SortData
+  structure SimpleOperator
 is
   ../../lib/cmlib/cmlib.cm
   ../../lib/sml-typed-abts/abt.cm
