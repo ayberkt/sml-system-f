@@ -37,6 +37,7 @@ start : exp                             (exp)
 typ : IDENT                             (intoTyp (TVAR IDENT))
     | FORALL IDENT DOT typ              (intoTyp (ALL (IDENT, typ)))
     | typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
+    | LPAREN typ RPAREN                 (typ)
 
 exp : IDENT                             (intoExp (NEU (VAR IDENT)))
     | SMALLLAMBDA IDENT DOT exp         (intoExp (VAL (LAM (IDENT, exp))))
