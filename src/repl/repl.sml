@@ -1,3 +1,5 @@
+structure SO = SimpleOperator
+
 structure Repl =
 struct
 
@@ -9,9 +11,9 @@ struct
           val input = valOf ( TextIO.output(TextIO.stdOut, "> ")
                             ; TextIO.flushOut(TextIO.stdOut)
                             ; TextIO.inputLine TextIO.stdIn)
-          val result = f input
+          val result = (f input, SortData.EXP)
       in
-        printLn (Ast.toString result);
+        printLn (ShowAbt.toString (AstToAbt.convert Abt.Metavar.Ctx.empty result));
         loop f
       end
     end
