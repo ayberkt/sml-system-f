@@ -7,5 +7,5 @@ Group is
   parser/expr.grm
   parser/expr_lexer.sml
   parser/expr_parser.sml
-  parser.sml
+  parser/parser.sml
 
