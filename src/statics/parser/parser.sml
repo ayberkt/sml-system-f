@@ -17,7 +17,7 @@ struct
   	       end
   	end
 
-  fun error (s, pos, pos') = (raise Fail "Parse error !")
+  fun error (s, pos, pos') = (raise Fail ("Parse error !" ^ s))
 
   fun parse text : Ast.ast =
     let
