@@ -9,6 +9,6 @@ this.
 
 ```
 > (/\ t . \ x . x) : (all t . t -> t)
-ann(Lam([t@40].lam([x@42].x@42)); all([t@43].arr(t@43; t@43)))                               │~
+ann(Lam([t@40].lam([x@42].x@42)); all([t@43].arr(t@43; t@43)))
 Good!
 ```
