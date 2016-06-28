@@ -18,7 +18,6 @@ whitespace = [\ \t];
 
 \n                 => (pos := !pos + 1; lex ());
 {whitespace}+      => (lex ());
-{alpha}{any}*      => (Tokens.IDENT (yytext, !pos, !pos));
 
 "->"               => (Tokens.ARRTYPE (!pos, !pos));
 "all"              => (Tokens.FORALL (!pos, !pos));
@@ -35,3 +34,5 @@ whitespace = [\ \t];
 "."                => (Tokens.DOT (!pos, !pos));
 ":"                => (Tokens.COLON (!pos, !pos));
 "\'"               => (Tokens.APOSTROPHE (!pos, !pos));
+
+{alpha}{any}*      => (Tokens.IDENT (yytext, !pos, !pos));
