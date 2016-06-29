@@ -20,9 +20,13 @@ whitespace = [\ \t];
 {whitespace}+      => (lex ());
 
 "->"               => (Tokens.ARRTYPE (!pos, !pos));
+"→"                => (Tokens.ARRTYPE (!pos, !pos));
 "all"              => (Tokens.FORALL (!pos, !pos));
+"∀"                => (Tokens.FORALL (!pos, !pos));
 "\\"               => (Tokens.SMALLLAMBDA (!pos, !pos));
+"λ"                => (Tokens.SMALLLAMBDA (!pos, !pos));
 "/\\"              => (Tokens.BIGLAMBDA (!pos, !pos));
+"Λ"                => (Tokens.BIGLAMBDA (!pos, !pos));
 
 "("                => (Tokens.LPAREN (!pos, !pos));
 ")"                => (Tokens.RPAREN (!pos, !pos));
